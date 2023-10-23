@@ -1,12 +1,13 @@
-import { Application } from 'express';
-// import AdminRoutes from './components/admin/admin.routes';
-// import UserRoutes from './components/user/user.routes';
-import IndexRoute from './index';
+import { Application } from "express";
+import AdministrationRoutes from "./components/administration/administration.routes";
+import StudentRoutes from "./components/student/student.routes";
+
 
 export default class ApplicationConfig {
-	public static registerRoute(app: Application) {
-		app.use('/', IndexRoute);
-		// app.use('/users', UserRoutes);
-		// app.use('/admin', AdminRoutes);
-	}
+  public static registerRoute(app: Application) {
+
+    app.use("/student", StudentRoutes);
+
+    app.use("/administration", AdministrationRoutes);
+  }
 }
