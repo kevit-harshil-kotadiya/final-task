@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import authorization from '../../utils/auth';
+
 import AdminController from "./administration.controller";
 
 import authentication from "../../utils/adminAuthentication";
@@ -7,7 +7,9 @@ import authentication from "../../utils/adminAuthentication";
 import adminAuthorization from "../../utils/adminAuthorization";
 
 import staffAuthorization from "../../utils/staffAuthorization";
-
+/**
+ * Router class for handling administrative routes.
+ */
 class AdminRouter {
   public router: Router;
 
@@ -17,7 +19,9 @@ class AdminRouter {
     this.router = Router();
     this.initializeRoutes();
   }
-
+  /**
+   * Initialize routes for the administration router.
+   */
   initializeRoutes() {
     this.router.post("/login", this.adminController.loginAdministration);
 
@@ -58,7 +62,7 @@ class AdminRouter {
     this.router.get(
       "/liststudents",
       authentication,
-      adminAuthorization,
+      staffAuthorization,
       this.adminController.listStudents,
     );
 
@@ -86,7 +90,7 @@ class AdminRouter {
     this.router.put(
       "/updatestudent",
       authentication,
-      adminAuthorization,
+      staffAuthorization,
       this.adminController.updateStudent,
     );
 

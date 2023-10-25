@@ -3,5 +3,3 @@ tests
 lib
 package-lock.json
 .env
-tests
-test.env

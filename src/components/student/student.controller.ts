@@ -1,7 +1,16 @@
 import Student from "../student/student.model";
 import jwt = require("jsonwebtoken");
-
+/**
+ * Controller for managing student-related operations.
+ */
 class StudentController {
+    /**
+   * Take attendance for the logged-in student.
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next function in the middleware chain.
+   */
   async takeAttendence(req, res, next) {
     try {
       const student = req.user;
@@ -22,7 +31,13 @@ class StudentController {
       res.status(500).send();
     }
   }
-
+  /**
+   * Handle student login by validating credentials and generating a JWT token.
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   * @param next - The next function in the middleware chain.
+   */
   async studentLogin(req, res, next) {
     try {
       const studentId = req.body.studentId;
@@ -54,7 +69,12 @@ class StudentController {
       res.status(500).send(err);
     }
   }
-
+  /**
+   * Handle student logout by removing the provided token from the user's tokens array.
+   *
+   * @param req - The request object.
+   * @param res - The response object.
+   */
   async studentLogout(req, res) {
     try {
       req.user.tokens = req.user.tokens.filter((token) => {
