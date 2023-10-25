@@ -4,7 +4,7 @@ import jwt = require("jsonwebtoken");
  * Controller for managing student-related operations.
  */
 class StudentController {
-    /**
+  /**
    * Take attendance for the logged-in student.
    *
    * @param req - The request object.

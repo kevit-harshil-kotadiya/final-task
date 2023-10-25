@@ -5,7 +5,7 @@ import StudentRoutes from "./components/student/student.routes";
  * Class for configuring and registering routes in the Express application.
  */
 export default class ApplicationConfig {
-    /**
+  /**
    * Register routes for students and administration.
    * @param {Application} app - The Express application to which routes are added.
    */

@@ -28,7 +28,7 @@ class App {
       log.info(`Server is running on port ${PORT}`);
       console.log("Server is running on port", PORT);
     });
-        // Configure middleware and set up MongoDB
+    // Configure middleware and set up MongoDB
     this.config();
     this.mongoSetup();
   }
@@ -64,7 +64,6 @@ class App {
         parameterLimit: 50000,
       }),
     );
-
 
     // Register application routes
     ApplicationConfig.registerRoute(this.app);

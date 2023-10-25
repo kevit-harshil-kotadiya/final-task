@@ -7,7 +7,7 @@ import Department from "../department/department.model";
  * Controller class for handling administrative operations.
  */
 class AdminController {
-    /**
+  /**
    * Authenticate an administrator and generate a JWT token.
    * @param {Request} req - Express request object.
    * @param {Response} res - Express response object.

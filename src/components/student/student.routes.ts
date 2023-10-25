@@ -19,7 +19,7 @@ class StudentRouter {
    * Initialize routes for the student router.
    */
   initializeRoutes() {
-        // Route for student login
+    // Route for student login
     this.router.post("/login", this.studentController.studentLogin);
     // Route for taking attendance (requires student authentication)
     this.router.post(
