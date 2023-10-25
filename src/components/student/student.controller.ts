@@ -14,14 +14,14 @@ class StudentController {
   async takeAttendence(req, res, next) {
     try {
       const student = req.user;
-      console.log(student);
+
       const currentDate = new Date().toISOString().split("T")[0]; // Format: "YYYY-MM-DD"
 
       if (!student.attendance.includes(currentDate)) {
         // If not, add the date to the array
 
         student.attendance.push(currentDate);
-        console.log(student.attendance);
+ 
         await student.save();
         return res.send("Attendence Recorded!");
       }
@@ -40,8 +40,8 @@ class StudentController {
    */
   async studentLogin(req, res, next) {
     try {
-      const studentId = req.body.studentId;
-      const password = req.body.password;
+      const {studentId,password} = req.body;
+
 
       if (!studentId || !password) {
         return res.status(400).send("Email or Password not present");
@@ -50,14 +50,14 @@ class StudentController {
       const student = await Student.findOne({ studentId });
 
       if (student) {
-        const match = password == student.password;
+        const match = password === student.password;
 
         if (match) {
           const token = jwt.sign(
             { _id: student._id.toString(), studentId: student.studentId },
-            "TEMPKEY",
+            process.env.KEY,
           );
-          console.log(token);
+
           student.tokens.push({ token });
           await student.save();
           return res.status(200).send({ student, token });
@@ -81,7 +81,7 @@ class StudentController {
         return token.token !== req.token;
       });
 
-      console.log(req.user);
+
 
       await req.user.save();
 

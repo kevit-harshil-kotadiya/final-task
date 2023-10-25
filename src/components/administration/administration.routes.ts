@@ -26,28 +26,28 @@ class AdminRouter {
     this.router.post("/login", this.adminController.loginAdministration);
 
     this.router.post(
-      "/addadmin",
+      "/add-admin",
       authentication,
       adminAuthorization,
       this.adminController.addAdmin,
     );
 
     this.router.post(
-      "/addstudent",
+      "/add-student",
       authentication,
       staffAuthorization,
       this.adminController.addStudent,
     );
 
     this.router.put(
-      "/adddepartmentdata",
+      "/add-departmentdata",
       authentication,
       adminAuthorization,
       this.adminController.addDepartment,
     );
 
     this.router.post(
-      "/addstaff",
+      "/add-staff",
       authentication,
       adminAuthorization,
       this.adminController.addStaff,
@@ -60,21 +60,21 @@ class AdminRouter {
     );
 
     this.router.get(
-      "/liststudents",
+      "/list-students",
       authentication,
       staffAuthorization,
       this.adminController.listStudents,
     );
 
     this.router.get(
-      "/absentstudents",
+      "/absent-students",
       authentication,
       staffAuthorization,
       this.adminController.absentStudents,
     );
 
     this.router.get(
-      "/lessattendance",
+      "/less-attendance",
       authentication,
       staffAuthorization,
       this.adminController.lessAttendance,
@@ -88,7 +88,7 @@ class AdminRouter {
     );
 
     this.router.put(
-      "/updatestudent",
+      "/update-student",
       authentication,
       staffAuthorization,
       this.adminController.updateStudent,

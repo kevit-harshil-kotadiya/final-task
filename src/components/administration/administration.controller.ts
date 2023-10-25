@@ -16,8 +16,7 @@ class AdminController {
    */
   async loginAdministration(req, res, next) {
     try {
-      const administratorId = req.body.administratorId;
-      const password = req.body.password;
+      const {administratorId,password} = req.body
 
       if (!administratorId || !password) {
         return res.status(400).send("Email or Password not present");
@@ -26,7 +25,7 @@ class AdminController {
       const administrator = await Administration.findOne({ administratorId });
 
       if (administrator) {
-        const match = password == administrator.password;
+        const match = password === administrator.password;
 
         if (match) {
           const token = jwt.sign(
@@ -34,9 +33,9 @@ class AdminController {
               _id: administrator._id.toString(),
               administratorId: administrator.administratorId,
             },
-            "TEMPKEY",
+            process.env.KEY,
           );
-          console.log(token);
+
           administrator.tokens.push({ token });
           await administrator.save();
           return res.status(200).send({ administrator, token });
@@ -57,18 +56,18 @@ class AdminController {
    */
   async addStaff(req, res, next) {
     try {
-      const staffObject = req.body;
+      const staffData = req.body;
 
       const exist = await Administration.findOne({
-        administratorId: staffObject.administratorId,
+        administratorId: staffData.administratorId,
       });
 
       if (exist) {
         return res.status(409).send("Staff already exist");
       }
 
-      const staff = await Administration.create(staffObject);
-      // console.log(admin);
+      const staff = await Administration.create(staffData);
+
       return res.status(200).send({ data: staff });
     } catch (err) {
       return next(err);
@@ -92,7 +91,7 @@ class AdminController {
       }
 
       const admin = await Administration.create(adminObject);
-      // console.log(admin);
+
       return res.status(200).send({ data: admin });
     } catch (err) {
       return next(err);
@@ -108,11 +107,11 @@ class AdminController {
     try {
       const { year, ...dataToAdd } = req.body;
 
-      const batch = await Department.findOne({ year });
-      if (batch) {
-        await batch.updateOne(dataToAdd, { new: true });
+      const department = await Department.findOne({ year });
+      if (department) {
+        await department.updateOne(dataToAdd, { new: true });
 
-        // await batch.save();
+
 
         return res.send("Department has been updated");
       }
@@ -230,8 +229,7 @@ class AdminController {
       }
     }
 
-    console.log(date);
-    console.log(students);
+
 
     if (data.length === 0) {
       return res.send("No Student Absent");
@@ -355,7 +353,7 @@ class AdminController {
 
       res.send(data);
     } catch (error) {
-      console.error(error);
+
       res.status(500).send("An error occurred while processing the request.");
     }
   }
@@ -411,7 +409,7 @@ class AdminController {
         res.send(updatedStudent);
       }
     } catch (err) {
-      console.error(err);
+
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -428,7 +426,7 @@ class AdminController {
         return token.token !== req.token;
       });
 
-      console.log(req.user);
+
 
       await req.user.save();
 

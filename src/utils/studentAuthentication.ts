@@ -19,7 +19,7 @@ export default async (req, res, next) => {
     }
 
     // Verify the token using a secret key (in this case, "TEMPKEY").
-    const decoded = jwt.verify(token, "TEMPKEY");
+    const decoded = jwt.verify(token, process.env.KEY);
 
     // Find the student associated with the decoded user ID and token.
     const student = await Student.findOne({

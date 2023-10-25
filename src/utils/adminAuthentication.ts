@@ -10,7 +10,7 @@ export default async (req, res, next) => {
       return res.status(401).send("Please login");
     }
 
-    const decoded = jwt.verify(token, "TEMPKEY");
+    const decoded = jwt.verify(token, process.env.KEY);
 
     const administrator = await Administration.findOne({
       _id: decoded._id,

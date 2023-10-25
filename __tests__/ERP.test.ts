@@ -28,7 +28,7 @@ test("testing login of admin with incorrect credentials", async () => {
 
 test("testing add admin by admin", async () => {
   await supertest(app)
-    .post("/administration/addadmin")
+    .post("/administration/add-admin")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -46,7 +46,7 @@ test("testing add admin by admin", async () => {
 
 test("testing create student by admin", async () => {
   await supertest(app)
-    .post("/administration/addstudent")
+    .post("/administration/add-student")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -65,7 +65,7 @@ test("testing create student by admin", async () => {
 
 test("testing create same student by admin", async () => {
   await supertest(app)
-    .post("/administration/addstudent")
+    .post("/administration/add-student")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -84,7 +84,7 @@ test("testing create same student by admin", async () => {
 
 test("testing create staff by admin", async () => {
   await supertest(app)
-    .post("/administration/addstaff")
+    .post("/administration/add-staff")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -100,7 +100,7 @@ test("testing create staff by admin", async () => {
 
 test("testing create same staff by admin", async () => {
   await supertest(app)
-    .post("/administration/addstaff")
+    .post("/administration/add-staff")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -138,7 +138,7 @@ test("testing create staff by staff", async () => {
   // const admin = await findUserById('0')
   // console.log('geigiegfiuwqkbfkjbweuofqkjwb')
   await supertest(app)
-    .post("/administration/addstaff")
+    .post("/administration/add-staff")
     .set(
       "Authorization",
       `Bearer ${staffObject.tokens[0].token}`
@@ -154,7 +154,7 @@ test("testing create staff by staff", async () => {
 
 test("testing add deparment data by admin", async () => {
   await supertest(app)
-    .put("/administration/adddepartmentdata")
+    .put("/administration/add-departmentdata")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -177,7 +177,7 @@ test("testing add deparment data by admin", async () => {
 
 test("testing add deparment data by staff", async () => {
   await supertest(app)
-    .put("/administration/adddepartmentdata")
+    .put("/administration/add-departmentdata")
     .set(
       "Authorization",
       `Bearer ${staffObject.tokens[0].token}`
@@ -201,7 +201,7 @@ test("testing add deparment data by staff", async () => {
 
 test("testing list students by admin", async () => {
   await supertest(app)
-    .get("/administration/liststudents")
+    .get("/administration/list-students")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -213,7 +213,7 @@ test("testing list students by admin", async () => {
 
 test("testing list student by staff", async () => {
   await supertest(app)
-    .get("/administration/liststudents")
+    .get("/administration/list-students")
     .set(
       "Authorization",
       `Bearer ${staffObject.tokens[0].token}`
@@ -224,7 +224,7 @@ test("testing list student by staff", async () => {
 
 test("testing update student by admin", async () => {
   await supertest(app)
-    .put("/administration/updatestudent")
+    .put("/administration/update-student")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -239,7 +239,7 @@ test("testing update student by admin", async () => {
 
 test("testing update student by staff", async () => {
   await supertest(app)
-    .put("/administration/updatestudent")
+    .put("/administration/update-student")
     .set(
       "Authorization",
       `Bearer ${staffObject.tokens[0].token}`
@@ -280,7 +280,7 @@ test("testing get departments by admin where no department of the year", async (
 
 test("testing get students with less attendance", async () => {
   await supertest(app)
-    .get("/administration/lessattendance")
+    .get("/administration/less-attendance")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
@@ -293,7 +293,7 @@ test("testing get students with less attendance", async () => {
 
 test("testing listing absent students on a particular day", async () => {
   await supertest(app)
-    .get("/administration/absentStudents")
+    .get("/administration/absent-Students")
     .set(
       "Authorization",
       `Bearer ${adminObject.tokens[0].token}`
