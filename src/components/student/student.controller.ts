@@ -21,7 +21,7 @@ class StudentController {
         // If not, add the date to the array
 
         student.attendance.push(currentDate);
- 
+
         await student.save();
         return res.send("Attendence Recorded!");
       }
@@ -40,8 +40,7 @@ class StudentController {
    */
   async studentLogin(req, res, next) {
     try {
-      const {studentId,password} = req.body;
-
+      const { studentId, password } = req.body;
 
       if (!studentId || !password) {
         return res.status(400).send("Email or Password not present");
@@ -80,8 +79,6 @@ class StudentController {
       req.user.tokens = req.user.tokens.filter((token) => {
         return token.token !== req.token;
       });
-
-
 
       await req.user.save();
 

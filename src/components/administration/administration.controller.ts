@@ -16,7 +16,7 @@ class AdminController {
    */
   async loginAdministration(req, res, next) {
     try {
-      const {administratorId,password} = req.body
+      const { administratorId, password } = req.body;
 
       if (!administratorId || !password) {
         return res.status(400).send("Email or Password not present");
@@ -110,8 +110,6 @@ class AdminController {
       const department = await Department.findOne({ year });
       if (department) {
         await department.updateOne(dataToAdd, { new: true });
-
-
 
         return res.send("Department has been updated");
       }
@@ -228,8 +226,6 @@ class AdminController {
         data.push(stData);
       }
     }
-
-
 
     if (data.length === 0) {
       return res.send("No Student Absent");
@@ -353,7 +349,6 @@ class AdminController {
 
       res.send(data);
     } catch (error) {
-
       res.status(500).send("An error occurred while processing the request.");
     }
   }
@@ -409,7 +404,6 @@ class AdminController {
         res.send(updatedStudent);
       }
     } catch (err) {
-
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -425,8 +419,6 @@ class AdminController {
       req.user.tokens = req.user.tokens.filter((token) => {
         return token.token !== req.token;
       });
-
-
 
       await req.user.save();
 
