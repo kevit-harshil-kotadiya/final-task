@@ -1,9 +1,9 @@
-import { body, validationResult } from 'express-validator';
+import { body, validationResult } from "express-validator";
 
 export const validateAdminCredentials = () => {
   return [
-    body('administratorId').notEmpty().withMessage('Id is required'),
-    body('password').notEmpty().withMessage('Password is required'),
+    body("administratorId").notEmpty().withMessage("Id is required"),
+    body("password").notEmpty().withMessage("Password is required"),
     (req, res, next) => {
       const errors = validationResult(req);
 
@@ -18,7 +18,7 @@ export const validateAdminCredentials = () => {
 
 export const validateYear = () => {
   return [
-    body('year').isNumeric().withMessage('Year must be a number'),
+    body("year").isNumeric().withMessage("Year must be a number"),
     (req, res, next) => {
       const errors = validationResult(req);
 
@@ -32,5 +32,3 @@ export const validateYear = () => {
 };
 
 export default validateAdminCredentials;
-
-

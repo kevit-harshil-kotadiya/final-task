@@ -16,8 +16,7 @@ class StudentController {
     try {
       const student = req.user;
 
-      const currentDate = dayjs().format('YYYY-MM-DD');; // Format: "YYYY-MM-DD"
-  
+      const currentDate = dayjs().format("YYYY-MM-DD"); // Format: "YYYY-MM-DD"
 
       if (!student.attendance.includes(currentDate)) {
         // If not, add the date to the array
