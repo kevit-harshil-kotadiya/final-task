@@ -18,9 +18,9 @@ class AdminController {
     try {
       const { administratorId, password } = req.body;
 
-      if (!administratorId || !password) {
-        return res.status(400).send("Email or Password not present");
-      }
+      // if (!administratorId || !password) {
+      //   return res.status(400).send("Email or Password not present");
+      // }
 
       const administrator = await Administration.findOne({ administratorId });
 
@@ -58,11 +58,11 @@ class AdminController {
     try {
       const staffData = req.body;
 
-      const exist = await Administration.findOne({
+      const studentExist = await Administration.findOne({
         administratorId: staffData.administratorId,
       });
 
-      if (exist) {
+      if (studentExist) {
         return res.status(409).send("Staff already exist");
       }
 
@@ -289,9 +289,9 @@ class AdminController {
   async getDepartments(req, res) {
     const year = req.body.year;
 
-    if (!year || typeof year !== "number") {
-      return res.status(400).send("Invalid year provided in the request.");
-    }
+    // if (!year || typeof year !== "number") {
+    //   return res.status(400).send("Invalid year provided in the request.");
+    // }
 
     try {
       const data = await Department.aggregate([

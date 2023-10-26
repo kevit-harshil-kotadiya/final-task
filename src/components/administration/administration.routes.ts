@@ -4,9 +4,15 @@ import AdminController from "./administration.controller";
 
 import authentication from "../../utils/adminAuthentication";
 
-import adminAuthorization from "../../utils/adminAuthorization";
+import { adminAuthorization, staffAuthorization } from "../../utils/adminAuthorization";
 
-import staffAuthorization from "../../utils/staffAuthorization";
+// import staffAuthorization from "../../utils/staffAuthorization";
+
+import { validateAdminCredentials, validateYear } from '../../utils/validator'; // Adjust the import path as needed
+
+// Now you can use these functions in your new file
+
+
 /**
  * Router class for handling administrative routes.
  */
@@ -23,7 +29,7 @@ class AdminRouter {
    * Initialize routes for the administration router.
    */
   initializeRoutes() {
-    this.router.post("/login", this.adminController.loginAdministration);
+    this.router.post("/login",validateAdminCredentials(), this.adminController.loginAdministration);
 
     this.router.post(
       "/add-admin",
@@ -84,6 +90,7 @@ class AdminRouter {
       "/departments",
       authentication,
       adminAuthorization,
+      validateYear(),
       this.adminController.getDepartments,
     );
 

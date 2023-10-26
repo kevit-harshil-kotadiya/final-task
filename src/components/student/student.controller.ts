@@ -1,5 +1,6 @@
 import Student from "../student/student.model";
 import jwt = require("jsonwebtoken");
+import dayjs = require("dayjs");
 /**
  * Controller for managing student-related operations.
  */
@@ -15,7 +16,8 @@ class StudentController {
     try {
       const student = req.user;
 
-      const currentDate = new Date().toISOString().split("T")[0]; // Format: "YYYY-MM-DD"
+      const currentDate = dayjs().format('YYYY-MM-DD');; // Format: "YYYY-MM-DD"
+  
 
       if (!student.attendance.includes(currentDate)) {
         // If not, add the date to the array
