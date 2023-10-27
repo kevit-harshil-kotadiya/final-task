@@ -3,21 +3,29 @@ import Administration from "./administration.model";
 import jwt = require("jsonwebtoken");
 import studenthelper from "../student/student.helper";
 import Department from "../department/department.model";
-
+/**
+ * Controller class for handling administrative operations.
+ */
 class AdminController {
+  /**
+   * Authenticate an administrator and generate a JWT token.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing an administrator and token on success.
+   */
   async loginAdministration(req, res, next) {
     try {
-      const administratorId = req.body.administratorId;
-      const password = req.body.password;
+      const { administratorId, password } = req.body;
 
-      if (!administratorId || !password) {
-        return res.status(400).send("Email or Password not present");
-      }
+      // if (!administratorId || !password) {
+      //   return res.status(400).send("Email or Password not present");
+      // }
 
       const administrator = await Administration.findOne({ administratorId });
 
       if (administrator) {
-        const match = password == administrator.password;
+        const match = password === administrator.password;
 
         if (match) {
           const token = jwt.sign(
@@ -25,9 +33,9 @@ class AdminController {
               _id: administrator._id.toString(),
               administratorId: administrator.administratorId,
             },
-            "TEMPKEY",
+            process.env.KEY,
           );
-          console.log(token);
+
           administrator.tokens.push({ token });
           await administrator.save();
           return res.status(200).send({ administrator, token });
@@ -39,27 +47,39 @@ class AdminController {
       res.status(500).send(err);
     }
   }
-
+  /**
+   * Add a staff member to the administration.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing data of the added staff.
+   */
   async addStaff(req, res, next) {
     try {
-      const staffObject = req.body;
+      const staffData = req.body;
 
-      const exist = await Administration.findOne({
-        administratorId: staffObject.administratorId,
+      const studentExist = await Administration.findOne({
+        administratorId: staffData.administratorId,
       });
 
-      if (exist) {
+      if (studentExist) {
         return res.status(409).send("Staff already exist");
       }
 
-      const staff = await Administration.create(staffObject);
-      // console.log(admin);
+      const staff = await Administration.create(staffData);
+
       return res.status(200).send({ data: staff });
     } catch (err) {
       return next(err);
     }
   }
-
+  /**
+   * Add an administrator to the administration.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing data of the added administrator.
+   */
   async addAdmin(req, res, next) {
     try {
       const adminObject = req.body;
@@ -71,22 +91,25 @@ class AdminController {
       }
 
       const admin = await Administration.create(adminObject);
-      // console.log(admin);
+
       return res.status(200).send({ data: admin });
     } catch (err) {
       return next(err);
     }
   }
-
+  /**
+   * Add a new department.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @returns {Response} A success message indicating department addition or update.
+   */
   async addDepartment(req, res) {
     try {
       const { year, ...dataToAdd } = req.body;
 
-      const batch = await Department.findOne({ year });
-      if (batch) {
-        await batch.updateOne(dataToAdd, { new: true });
-
-        // await batch.save();
+      const department = await Department.findOne({ year });
+      if (department) {
+        await department.updateOne(dataToAdd, { new: true });
 
         return res.send("Department has been updated");
       }
@@ -100,7 +123,13 @@ class AdminController {
       res.status(500);
     }
   }
-
+  /**
+   * Add a new student to the system.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing data of the added student.
+   */
   async addStudent(req, res, next) {
     try {
       const studentObject = req.body;
@@ -130,7 +159,13 @@ class AdminController {
       return next(err);
     }
   }
-
+  /**
+   * Retrieve a list of students by year and department.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing a list of students.
+   */
   async listStudents(req, res, next) {
     const data = await Student.aggregate([
       {
@@ -164,7 +199,13 @@ class AdminController {
 
     return res.send(data);
   }
-
+  /**
+   * Retrieve a list of absent students on a specific date.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response containing a list of absent students.
+   */
   async absentStudents(req, res, next) {
     const data = [];
 
@@ -186,16 +227,18 @@ class AdminController {
       }
     }
 
-    console.log(date);
-    console.log(students);
-
     if (data.length === 0) {
       return res.send("No Student Absent");
     }
 
     res.send(data);
   }
-
+  /**
+   * Retrieve a list of students with less than 75% attendance in a specific semester.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @returns {Response} The response containing a list of students with low attendance.
+   */
   async lessAttendance(req, res) {
     const sem = parseInt(req.body.sem);
 
@@ -237,13 +280,18 @@ class AdminController {
 
     res.send(data);
   }
-
+  /**
+   * Get a list of departments for a given year.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @returns {Response} The response containing department information.
+   */
   async getDepartments(req, res) {
     const year = req.body.year;
 
-    if (!year || typeof year !== "number") {
-      return res.status(400).send("Invalid year provided in the request.");
-    }
+    // if (!year || typeof year !== "number") {
+    //   return res.status(400).send("Invalid year provided in the request.");
+    // }
 
     try {
       const data = await Department.aggregate([
@@ -301,11 +349,15 @@ class AdminController {
 
       res.send(data);
     } catch (error) {
-      console.error(error);
       res.status(500).send("An error occurred while processing the request.");
     }
   }
-
+  /**
+   * Update student information, including attendance data.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @returns {Response} The response containing the updated student data.
+   */
   async updateStudent(req, res) {
     try {
       const { studentId, ...updateBody } = req.body;
@@ -352,18 +404,21 @@ class AdminController {
         res.send(updatedStudent);
       }
     } catch (err) {
-      console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   }
-
+  /**
+   * Log out an administrator by removing their token.
+   * @param {Request} req - Express request object.
+   * @param {Response} res - Express response object.
+   * @param {NextFunction} next - Express next middleware function.
+   * @returns {Response} The response indicating successful logout.
+   */
   async logoutAdministration(req, res, next) {
     try {
       req.user.tokens = req.user.tokens.filter((token) => {
         return token.token !== req.token;
       });
-
-      console.log(req.user);
 
       await req.user.save();
 

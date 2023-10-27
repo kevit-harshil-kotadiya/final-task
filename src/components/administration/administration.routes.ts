@@ -1,13 +1,23 @@
 import { Router } from "express";
-// import authorization from '../../utils/auth';
+
 import AdminController from "./administration.controller";
 
 import authentication from "../../utils/adminAuthentication";
 
-import adminAuthorization from "../../utils/adminAuthorization";
+import {
+  adminAuthorization,
+  staffAuthorization,
+} from "../../utils/adminAuthorization";
 
-import staffAuthorization from "../../utils/staffAuthorization";
+// import staffAuthorization from "../../utils/staffAuthorization";
 
+import { validateAdminCredentials, validateYear } from "../../utils/validator"; // Adjust the import path as needed
+
+// Now you can use these functions in your new file
+
+/**
+ * Router class for handling administrative routes.
+ */
 class AdminRouter {
   public router: Router;
 
@@ -17,33 +27,39 @@ class AdminRouter {
     this.router = Router();
     this.initializeRoutes();
   }
-
+  /**
+   * Initialize routes for the administration router.
+   */
   initializeRoutes() {
-    this.router.post("/login", this.adminController.loginAdministration);
+    this.router.post(
+      "/login",
+      validateAdminCredentials(),
+      this.adminController.loginAdministration,
+    );
 
     this.router.post(
-      "/addadmin",
+      "/add-admin",
       authentication,
       adminAuthorization,
       this.adminController.addAdmin,
     );
 
     this.router.post(
-      "/addstudent",
+      "/add-student",
       authentication,
       staffAuthorization,
       this.adminController.addStudent,
     );
 
     this.router.put(
-      "/adddepartmentdata",
+      "/add-departmentdata",
       authentication,
       adminAuthorization,
       this.adminController.addDepartment,
     );
 
     this.router.post(
-      "/addstaff",
+      "/add-staff",
       authentication,
       adminAuthorization,
       this.adminController.addStaff,
@@ -56,21 +72,21 @@ class AdminRouter {
     );
 
     this.router.get(
-      "/liststudents",
+      "/list-students",
       authentication,
-      adminAuthorization,
+      staffAuthorization,
       this.adminController.listStudents,
     );
 
     this.router.get(
-      "/absentstudents",
+      "/absent-students",
       authentication,
       staffAuthorization,
       this.adminController.absentStudents,
     );
 
     this.router.get(
-      "/lessattendance",
+      "/less-attendance",
       authentication,
       staffAuthorization,
       this.adminController.lessAttendance,
@@ -80,13 +96,14 @@ class AdminRouter {
       "/departments",
       authentication,
       adminAuthorization,
+      validateYear(),
       this.adminController.getDepartments,
     );
 
     this.router.put(
-      "/updatestudent",
+      "/update-student",
       authentication,
-      adminAuthorization,
+      staffAuthorization,
       this.adminController.updateStudent,
     );
 

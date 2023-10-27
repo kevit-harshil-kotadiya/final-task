@@ -1,8 +1,9 @@
 import { createLogger, transports, format } from "winston";
 import { WinstonChannelLogger } from "@kevit/winston-channel-logger";
-import * as morgan from "morgan";
+
 import Config from "../config";
 
+// Initialize a WinstonChannelLogger for sending logs to Microsoft Teams.
 const winstonChannelLogger = new WinstonChannelLogger({
   format: format.uncolorize(),
   level: "info",
@@ -16,6 +17,7 @@ const winstonChannelLogger = new WinstonChannelLogger({
   ],
 });
 
+// Create a Winston logger with custom formatting and log transports.
 const logger = createLogger({
   transports: [new transports.Console({ level: "info" }), winstonChannelLogger],
   format: format.combine(
@@ -27,22 +29,11 @@ const logger = createLogger({
   ),
 });
 
+// Determine the format for Morgan request logging based on the environment.
 const morganformat =
   Config.server.env === "dev"
     ? "dev"
     : ':remote-addr ":user-agent" - :method :url :status :response-time ms - :res[content-length]';
-export const morganInstance = morgan(morganformat, {
-  stream: {
-    write: (str) => {
-      if (str && str.split("?")[1]) {
-        if (str.split("?")[1].split("=")[0] !== "watermark") {
-          logger.debug(str);
-        }
-      } else {
-        logger.debug(str);
-      }
-    },
-  },
-});
 
+// Export the logger and the Morgan instance.
 export const log = logger;

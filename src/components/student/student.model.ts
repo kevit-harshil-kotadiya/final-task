@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 /**
- * User Schema for DB
+ * Schema for representing student data in the database.
  */
 const studentSchema = new Schema({
   name: {
@@ -57,6 +57,8 @@ const studentSchema = new Schema({
     },
   ],
 });
-
+/**
+ * Model representing a student in the database.
+ */
 const Student = model("Student", studentSchema);
 export default Student;
