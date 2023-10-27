@@ -12,4 +12,4 @@ To start using this project, follow below steps:
 
 - Import the postman collection to postman app, and set environment variable `base_url` with your base url of the app. For eg, `base_url = http://localhost:3000`.
 
-- To run the test cases Run'npm run test' from the CLI.
+- To run the test cases Run'npm run test' from the CLI. also add your key in db.ts in the __tests__ folder..
