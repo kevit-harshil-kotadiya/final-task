@@ -16,7 +16,7 @@ export const adminObject = {
             _id: adminId.toString(),
             administratorId: "1a",
         },
-            "TEMPKEY")
+            process.env.KEY)
     }]
 };
 const staffId = new mongoose.Types.ObjectId()
@@ -31,7 +31,7 @@ export const staffObject = {
             _id: staffId.toString(),
             administratorId: "1s",
         },
-            "TEMPKEY")
+        process.env.KEY)
     }]
 };
 const studentId = new mongoose.Types.ObjectId()
@@ -46,7 +46,7 @@ export const studentObject = {
     batch: 2023,
     tokens: [{
         token: jwt.sign({ _id: studentId.toString(), studentId: "20" },
-        "TEMPKEY")
+        process.env.KEY)
     }]
 };
 
