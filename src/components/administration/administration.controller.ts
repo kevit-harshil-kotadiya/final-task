@@ -27,7 +27,6 @@ class AdminController {
 
       if (administrator) {
         const match = password === administrator.password;
-        
 
         if (match) {
           const token = jwt.sign(
@@ -268,7 +267,10 @@ class AdminController {
           (item) => item.sem === sem,
         );
 
-        if (foundSemAttendence !==undefined &&parseInt(foundSemAttendence.attendance) < 75) {
+        if (
+          foundSemAttendence !== undefined &&
+          parseInt(foundSemAttendence.attendance) < 75
+        ) {
           const studentWithLessAttedance = {
             name: student.name,
             studentId: student.studentId,
