@@ -13,7 +13,9 @@ export const adminAuthorization = async (req, res, next) => {
         .send("Only admin users are permitted to access this route");
     }
   } catch (e) {
-    res.status(401).send({ error: "Only admin users are permitted to access this route" });
+    res
+      .status(401)
+      .send({ error: "Only admin users are permitted to access this route" });
   }
 };
 
