@@ -1,6 +1,5 @@
-node_modules
-tests
-lib
-package-lock.json
 .env
+lib/
+node_modules/
+package-lock.json
 .idea/
